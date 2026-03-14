@@ -64,8 +64,7 @@ function Signup() {
         e.preventDefault()
         const isFormValid = validateForm()
         if (isFormValid === true) {
-            signup(formData)
-            navigate("/home")
+            signup(formData, navigate)
         }
     }
 
