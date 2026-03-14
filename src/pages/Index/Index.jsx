@@ -31,8 +31,8 @@ export default function IndexPage() {
                             Take control of your day, sync your life, and stay focused on what matters.
                         </p>
 
-                        {/* CTA */}
-                        <Link to="/home">
+                        {/* Call to Action */}
+                        <Link to="/login">
                             <Button className="w-full h-12 text-sm font-medium shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group font-roboto-mono">
                                 Get Started
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
