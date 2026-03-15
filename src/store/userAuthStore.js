@@ -49,5 +49,29 @@ export const userAuthStore = create((set) => ({
         } finally {
             set({ isSigningUp: false })
         }
+    },
+
+    login: async (userLoginData, navigate) => {
+        set({ isLoggingIn: true })
+        try {
+            const loginResponse = await userLogin(userLoginData)
+            console.log("Login response: ", loginResponse)
+            if (loginResponse?.status === 200) {
+                set({
+                    user: loginResponse?.data,
+                    accessToken: loginResponse?.token,
+                    isUserAuthenticated: true
+                })
+                alert(loginResponse?.message)
+                navigate("/home")
+                return
+            } else {
+                alert(loginResponse?.message)
+            }
+        } catch (error) {
+            console.error("Error logging up the user: ", error)
+        } finally {
+            set({ isLoggingIn: false })
+        }
     }
 }))
