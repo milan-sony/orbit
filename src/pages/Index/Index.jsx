@@ -23,7 +23,7 @@ export default function IndexPage() {
 
                         {/* Title */}
                         <h1 className="text-xl md:text-4xl font-black mb-4 font-roboto uppercase tracking-wide">
-                            orbit
+                            OrbitHub
                         </h1>
 
                         {/* Description */}
