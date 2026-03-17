@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { userLogin, userSignup } from "../utils/api";
+import { userLogin, userLogout, userSignup } from "../utils/api";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 export const userAuthStore = create(
@@ -78,17 +78,23 @@ export const userAuthStore = create(
                 }
             },
 
-            logout: (navigate) => {
+            logout: async (navigate) => {
                 set({ isLoggedOut: true })
                 try {
-                    set({
-                        user: null,
-                        accessToken: null,
-                        isUserAuthenticated: false,
-                    });
-                    localStorage.removeItem("user-auth");  // Clears the persisted state by key
-                    if (navigate) {
-                        navigate("/login");  // Redirect to login page
+                    const logoutResponse = await userLogout()
+                    console.log("Logout response: ", logoutResponse)
+                    if (logoutResponse?.status === 200) {
+                        set({
+                            user: null,
+                            accessToken: null,
+                            isUserAuthenticated: false,
+                        });
+                        localStorage.removeItem("user-auth");  // Clears the persisted state by key
+                        alert(logoutResponse?.message)
+                        navigate("/login")
+                        return
+                    } else {
+                        alert(logoutResponse?.message)
                     }
                 } catch (error) {
                     console.error("Error logging out the user", error)
