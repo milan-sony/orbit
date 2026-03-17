@@ -19,3 +19,13 @@ export async function userLogin(userLoginData) {
         return error?.response?.data
     }
 }
+
+// User logout
+export async function userLogout() {
+    try {
+        const response = await axiosInstance.post("/auth/logout")
+        return response.data
+    } catch (error) {
+        return error?.response?.data
+    }
+}
