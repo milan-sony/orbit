@@ -9,7 +9,6 @@ export const userAuthStore = create(
             user: null,
             accessToken: null,
             isUserAuthenticated: false,
-            isLoading: true,
             isSigningUp: false,
             isLoggingIn: false,
 
