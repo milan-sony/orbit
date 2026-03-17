@@ -27,9 +27,9 @@ export default function Navbar() {
             <nav className="px-4 py-2 bg-secondary flex justify-between items-center sticky top-0 z-50 shadow-sm">
                 {/* Logo */}
                 <Link to="/" className="flex items-center">
-                        <h1 className="flex items-center text-2xl font-extrabold font-roboto uppercase tracking-wide">
-                            <Orbit className="mr-2" />
-                        </h1>
+                    <h1 className="flex items-center text-2xl font-extrabold font-roboto uppercase tracking-wide">
+                        <Orbit className="mr-2 hover:animate-spin" />
+                    </h1>
                 </Link>
 
                 {/* Desktop Navigation */}
@@ -81,9 +81,9 @@ export default function Navbar() {
                     {/* Mobile Header */}
                     <div className="flex items-center justify-between p-4 border-b">
                         <Link to="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
-                        <h1 className="flex items-center text-2xl font-extrabold font-roboto uppercase">
-                            <Orbit className="mr-2" />
-                        </h1>
+                            <h1 className="flex items-center text-2xl font-extrabold font-roboto uppercase">
+                                <Orbit className="mr-2 hover:animate-spin" />
+                            </h1>
                         </Link>
                         <div className="flex items-center gap-2">
                             <ThemeToggle />
