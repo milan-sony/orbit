@@ -11,6 +11,7 @@ export const userAuthStore = create(
             isUserAuthenticated: false,
             isSigningUp: false,
             isLoggingIn: false,
+            isLoggedOut: false,
 
             signup: async (userSignupData, navigate) => {
                 set({ isSigningUp: true })
@@ -75,7 +76,26 @@ export const userAuthStore = create(
                 } finally {
                     set({ isLoggingIn: false })
                 }
-            }
+            },
+
+            logout: (navigate) => {
+                set({ isLoggedOut: true })
+                try {
+                    set({
+                        user: null,
+                        accessToken: null,
+                        isUserAuthenticated: false,
+                    });
+                    localStorage.removeItem("user-auth");  // Clears the persisted state by key
+                    if (navigate) {
+                        navigate("/login");  // Redirect to login page
+                    }
+                } catch (error) {
+                    console.error("Error logging out the user", error)
+                } finally {
+                    set({ isLoggedOut: false })
+                }
+            },
         }),
         {
             name: "user-auth", // Name is going to be the key used to store your Zustand state in the storage
@@ -85,6 +105,6 @@ export const userAuthStore = create(
                 accessToken: state.accessToken,
                 isUserAuthenticated: state.isUserAuthenticated
             }) // Partialize enables you to pick some of the state's fields to be stored in the storage.
-        }
+        },
     )
 );
