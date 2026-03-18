@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { AudioLines, Menu, Orbit, X } from "lucide-react";
+import { LogOut, Menu, Orbit, X } from "lucide-react";
 import { useState } from "react";
 import {
     NavigationMenu,
@@ -7,112 +7,141 @@ import {
     NavigationMenuLink,
     NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ThemeToggle } from "./theme-toggle";
+import { userAuthStore } from "../store/userAuthStore";
 
 const navbarLinks = [
     { name: "Home", to: "/home" },
-    // { name: "Calender", to: "#about" },
-    // { name: "Stat", to: "#products" },
+    { name: "Profile", to: "/profile" },
 ];
 
 export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { logout } = userAuthStore();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+    const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
+
+    const handleLogout = () => logout(navigate);
 
     return (
         <>
-            {/* Main Navbar */}
-            <nav className="px-4 py-2 bg-secondary flex justify-between items-center sticky top-0 z-50 shadow-sm">
-                {/* Logo */}
-                <Link to="/" className="flex items-center">
-                    <h1 className="flex items-center text-2xl font-extrabold font-roboto uppercase tracking-wide">
-                        <Orbit className="mr-2 hover:animate-spin" />
-                    </h1>
-                </Link>
+            {/* Navbar */}
+            <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
 
-                {/* Desktop Navigation */}
-                <div className="hidden lg:flex items-center gap-2">
-                    <NavigationMenu>
-                        <NavigationMenuList>
-                            {navbarLinks.map((link) => (
-                                <NavigationMenuItem key={link.name}>
-                                    <NavigationMenuLink className="bg-secondary text-secondary-foreground" asChild>
-                                        <Link
-                                            to={link.to}
-                                            className="px-4 py-2 text-md hover:text-red-500 transition-colors font-roboto"
-                                        >
-                                            {link.name}
-                                        </Link>
-                                    </NavigationMenuLink>
-                                </NavigationMenuItem>
-                            ))}
-                        </NavigationMenuList>
-                    </NavigationMenu>
-                    <ThemeToggle />
-                </div>
+                <div className="flex h-14 items-center justify-between px-4 sm:px-6">
 
-                {/* Mobile Menu Toggle */}
-                <div className="lg:hidden">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-9 w-9"
-                        onClick={toggleMobileMenu}
-                        aria-label="Toggle menu"
-                    >
-                        <Menu className="h-5 w-5" />
-                    </Button>
+                    {/* Logo */}
+                    <Link to="/" className="flex items-center gap-2 font-bold">
+                        <Orbit className="h-6 w-6 hover:animate-spin" />
+                        <span className="hidden sm:inline">OrbitHub</span>
+                    </Link>
+
+                    {/* Desktop Menu */}
+                    <div className="hidden lg:flex items-center gap-4">
+                        <NavigationMenu>
+                            <NavigationMenuList>
+                                {navbarLinks.map((link) => {
+                                    const isActive = location.pathname === link.to;
+
+                                    return (
+                                        <NavigationMenuItem key={link.name}>
+                                            <NavigationMenuLink asChild>
+                                                <Link
+                                                    to={link.to}
+                                                    className={`px-3 py-2 text-sm font-medium transition-colors rounded-md
+                                                            ${isActive
+                                                            ? "bg-accent text-accent-foreground"
+                                                            : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                                                        }`}
+                                                >
+                                                    {link.name}
+                                                </Link>
+                                            </NavigationMenuLink>
+                                        </NavigationMenuItem>
+                                    );
+                                })}
+                            </NavigationMenuList>
+                        </NavigationMenu>
+
+                        <ThemeToggle />
+
+                        <Button variant="outline" size="sm" onClick={handleLogout}>
+                            <LogOut className="mr-2 h-4 w-4" />
+                            Logout
+                        </Button>
+                    </div>
+
+                    {/* Mobile Toggle */}
+                    <div className="lg:hidden">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={toggleMobileMenu}
+                        >
+                            <Menu className="h-5 w-5" />
+                        </Button>
+                    </div>
                 </div>
             </nav>
 
-            {/* Mobile Menu Drawer */}
+            {/* Mobile Drawer */}
             <div
-                className={`fixed inset-0 z-50 lg:hidden bg-black/20 backdrop-blur-sm transition-opacity ${isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${isMobileMenuOpen
+                    ? "bg-black/40 backdrop-blur-sm opacity-100"
+                    : "opacity-0 pointer-events-none"
                     }`}
                 onClick={() => setIsMobileMenuOpen(false)}
             >
                 <div
-                    className={`fixed top-0 left-0 h-full w-64 bg-secondary shadow-xl transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+                    className={`fixed top-0 left-0 h-full w-72 bg-background shadow-xl transform transition-transform duration-300 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
                         }`}
                     onClick={(e) => e.stopPropagation()}
                 >
-                    {/* Mobile Header */}
+                    {/* Header */}
                     <div className="flex items-center justify-between p-4 border-b">
-                        <Link to="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
-                            <h1 className="flex items-center text-2xl font-extrabold font-roboto uppercase">
-                                <Orbit className="mr-2 hover:animate-spin" />
-                            </h1>
+                        <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 font-bold">
+                            <Orbit className="h-6 w-6" />
+                            OrbitHub
                         </Link>
-                        <div className="flex items-center gap-2">
+
+                        <Button variant="ghost" size="icon" onClick={toggleMobileMenu}>
+                            <X className="h-5 w-5" />
+                        </Button>
+                    </div>
+
+                    {/* Links */}
+                    <div className="flex flex-col p-4 space-y-2">
+                        {navbarLinks.map((link) => {
+                            const isActive = location.pathname === link.to;
+
+                            return (
+                                <Link
+                                    key={link.name}
+                                    to={link.to}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className={`px-3 py-2 rounded-md text-sm font-medium transition
+                                            ${isActive
+                                            ? "bg-accent text-accent-foreground"
+                                            : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                                        }`}
+                                >
+                                    {link.name}
+                                </Link>
+                            );
+                        })}
+
+                        <div className="pt-4 flex items-center justify-between">
                             <ThemeToggle />
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8"
-                                onClick={toggleMobileMenu}
-                                aria-label="Close menu"
-                            >
-                                <X className="h-4 w-4" />
+
+                            <Button variant="outline" size="sm" onClick={handleLogout}>
+                                <LogOut className="h-4 w-4 mr-2" />
+                                Logout
                             </Button>
                         </div>
                     </div>
-
-                    {/* Mobile Links */}
-                    <ul className="flex flex-col p-4 space-y-4 mt-4">
-                        {navbarLinks.map((item) => (
-                            <li key={item.name}>
-                                <Link
-                                    to={item.to}
-                                    className="flex items-center p-3 text-base text-foreground-secondary hover:text-red-500 hover:bg-accent rounded-md transition-all font-roboto"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    {item.name}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
                 </div>
             </div>
         </>
