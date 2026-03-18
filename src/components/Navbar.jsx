@@ -10,11 +10,7 @@ import {
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ThemeToggle } from "./theme-toggle";
 import { userAuthStore } from "../store/userAuthStore";
-
-const navbarLinks = [
-    { name: "Home", to: "/home" },
-    { name: "Profile", to: "/profile" },
-];
+import { navbarLinks } from "../utils/constants";
 
 export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
