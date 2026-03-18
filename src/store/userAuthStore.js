@@ -11,7 +11,7 @@ export const userAuthStore = create(
             isUserAuthenticated: false,
             isSigningUp: false,
             isLoggingIn: false,
-            isLoggedOut: false,
+            isLoggingOut: false,
 
             signup: async (userSignupData, navigate) => {
                 set({ isSigningUp: true })
@@ -79,7 +79,7 @@ export const userAuthStore = create(
             },
 
             logout: async (navigate) => {
-                set({ isLoggedOut: true })
+                set({ isLoggingOut: true })
                 try {
                     const logoutResponse = await userLogout()
                     console.log("Logout response: ", logoutResponse)
@@ -99,7 +99,7 @@ export const userAuthStore = create(
                 } catch (error) {
                     console.error("Error logging out the user", error)
                 } finally {
-                    set({ isLoggedOut: false })
+                    set({ isLoggingOut: false })
                 }
             },
         }),
