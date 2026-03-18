@@ -7,6 +7,11 @@ import Signup from '../pages/Signup/Signup'
 import Login from '../pages/Login/Login'
 import ProtectedRoute from '../utils/ProtectedRoute'
 import { userAuthStore } from '../store/userAuthStore'
+import Profile from '../pages/Profile/Profile'
+import Tasks from '../pages/Tasks/Tasks'
+import Remainders from '../pages/Remainders/Remainders'
+import Notes from '../pages/Notes/Notes'
+import Layout from '../components/Layout'
 
 function Router() {
     const { isUserAuthenticated } = userAuthStore()
@@ -14,11 +19,17 @@ function Router() {
 
     return (
         <Routes>
-            <Route path='/' element={isUserAuthenticated ? <Home /> : <Index />} />
-            <Route path='/signup' element={isUserAuthenticated ? <Home /> : <Signup />} />
-            <Route path='/login' element={isUserAuthenticated ? <Home /> : <Login />} />
-            <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
-            <Route path='*' element={<PageNotFound />} />
+            <Route element={<Layout />}>
+                <Route path='/' element={isUserAuthenticated ? <Home /> : <Index />} />
+                <Route path='/signup' element={isUserAuthenticated ? <Home /> : <Signup />} />
+                <Route path='/login' element={isUserAuthenticated ? <Home /> : <Login />} />
+                <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+                <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                <Route path='/tasks' element={<ProtectedRoute><Tasks /></ProtectedRoute>} />
+                <Route path='/notes' element={<ProtectedRoute><Notes /></ProtectedRoute>} />
+                <Route path='/remainders' element={<ProtectedRoute><Remainders /></ProtectedRoute>} />
+                <Route path='*' element={<PageNotFound />} />
+            </Route>
         </Routes>
     )
 }
