@@ -14,7 +14,7 @@ import { navbarLinks } from "../utils/constants";
 
 export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { logout } = userAuthStore();
+    const { isUserAuthenticated, logout } = userAuthStore();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -37,37 +37,47 @@ export default function Navbar() {
 
                     {/* Desktop Menu */}
                     <div className="hidden lg:flex items-center gap-4">
-                        <NavigationMenu>
-                            <NavigationMenuList>
-                                {navbarLinks.map((link) => {
-                                    const isActive = location.pathname === link.to;
 
-                                    return (
-                                        <NavigationMenuItem key={link.name}>
-                                            <NavigationMenuLink asChild>
-                                                <Link
-                                                    to={link.to}
-                                                    className={`px-3 py-2 text-sm font-medium transition-colors rounded-md
+                        {
+                            isUserAuthenticated && (
+                                <>
+                                    {/* Nav links */}
+                                    <NavigationMenu>
+                                        <NavigationMenuList>
+                                            {navbarLinks.map((link) => {
+                                                const isActive = location.pathname === link.to;
+                                                return (
+                                                    <NavigationMenuItem key={link.name}>
+                                                        <NavigationMenuLink asChild>
+                                                            <Link
+                                                                to={link.to}
+                                                                className={`px-3 py-2 text-sm font-medium transition-colors rounded-md
                                                             ${isActive
-                                                            ? "bg-accent text-accent-foreground"
-                                                            : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                                                        }`}
-                                                >
-                                                    {link.name}
-                                                </Link>
-                                            </NavigationMenuLink>
-                                        </NavigationMenuItem>
-                                    );
-                                })}
-                            </NavigationMenuList>
-                        </NavigationMenu>
+                                                                        ? "bg-accent text-accent-foreground"
+                                                                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                                                                    }`}
+                                                            >
+                                                                {link.name}
+                                                            </Link>
+                                                        </NavigationMenuLink>
+                                                    </NavigationMenuItem>
+                                                );
+                                            })}
+                                        </NavigationMenuList>
+                                    </NavigationMenu>
 
-                        <ThemeToggle />
+                                    {/* Theme toggle button */}
+                                    <ThemeToggle />
 
-                        <Button variant="outline" size="sm" onClick={handleLogout}>
-                            <LogOut className="mr-2 h-4 w-4" />
-                            Logout
-                        </Button>
+                                    {/* Logout button */}
+                                    <Button variant="outline" size="sm" onClick={handleLogout}>
+                                        <LogOut className="mr-2 h-4 w-4" />
+                                        Logout
+                                    </Button>
+                                </>
+                            )
+                        }
+
                     </div>
 
                     {/* Mobile Toggle */}
@@ -109,35 +119,40 @@ export default function Navbar() {
                     </div>
 
                     {/* Links */}
-                    <div className="flex flex-col p-4 space-y-2">
-                        {navbarLinks.map((link) => {
-                            const isActive = location.pathname === link.to;
+                    {
+                        isUserAuthenticated && (
+                            <div className="flex flex-col p-4 space-y-2">
+                                {navbarLinks.map((link) => {
+                                    const isActive = location.pathname === link.to;
 
-                            return (
-                                <Link
-                                    key={link.name}
-                                    to={link.to}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium transition
+                                    return (
+                                        <Link
+                                            key={link.name}
+                                            to={link.to}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className={`px-3 py-2 rounded-md text-sm font-medium transition
                                             ${isActive
-                                            ? "bg-accent text-accent-foreground"
-                                            : "text-muted-foreground hover:bg-accent hover:text-foreground"
-                                        }`}
-                                >
-                                    {link.name}
-                                </Link>
-                            );
-                        })}
+                                                    ? "bg-accent text-accent-foreground"
+                                                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                                                }`}
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    );
+                                })}
 
-                        <div className="pt-4 flex items-center justify-between">
-                            <ThemeToggle />
+                                <div className="pt-4 flex items-center justify-between">
+                                    <ThemeToggle />
 
-                            <Button variant="outline" size="sm" onClick={handleLogout}>
-                                <LogOut className="h-4 w-4 mr-2" />
-                                Logout
-                            </Button>
-                        </div>
-                    </div>
+                                    <Button variant="outline" size="sm" onClick={handleLogout}>
+                                        <LogOut className="h-4 w-4 mr-2" />
+                                        Logout
+                                    </Button>
+                                </div>
+                            </div>
+                        )
+                    }
+
                 </div>
             </div>
         </>

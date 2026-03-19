@@ -1,7 +1,6 @@
 import { ArrowRight, Orbit } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { ThemeToggle } from "../../components/theme-toggle";
 
 export default function IndexPage() {
@@ -9,45 +8,74 @@ export default function IndexPage() {
         <div className="min-h-screen flex flex-col bg-background">
 
             {/* Header */}
-            <header className="w-full flex justify-end px-4 py-4 sm:px-6">
-                <ThemeToggle />
+            <header className="w-full px-4 sm:px-6 py-4 flex items-center justify-between">
+
+                {/* Left */}
+                <div className="flex items-center gap-2 font-bold text-lg">
+                    <Orbit className="w-6 h-6 animate-spin" />
+                    OrbitHub
+                </div>
+
+                {/* Right */}
+                <div className="flex items-center gap-2 sm:gap-3">
+                    <ThemeToggle />
+
+                    <Link to="/login">
+                        <Button variant="ghost" className="text-sm">
+                            Login
+                        </Button>
+                    </Link>
+                </div>
+
             </header>
 
-            {/* Main Content */}
-            <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-6">
+            {/* Hero Section */}
+            <main className="flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6">
 
-                <Card className="w-full max-w-sm sm:max-w-md shadow-xl border bg-card">
-                    <CardContent className="p-6 sm:p-8 text-center">
+                {/* Icon */}
+                <div className="mb-6 sm:mb-8">
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto bg-muted rounded-2xl flex items-center justify-center">
+                        <Orbit className="w-12 h-12 sm:w-14 sm:h-14 text-foreground hover:animate-spin" />
+                    </div>
+                </div>
 
-                        {/* Icon */}
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 sm:mb-8 bg-muted rounded-2xl flex items-center justify-center">
-                            <Orbit className="w-10 h-10 sm:w-12 sm:h-12 text-foreground hover:animate-spin transition" />
-                        </div>
+                {/* Title */}
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4">
+                    Organize Your Life
+                    <br />
+                    <span className="text-primary">Effortlessly</span>
+                </h1>
 
-                        {/* Title */}
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black mb-3 sm:mb-4 tracking-wide">
-                            OrbitHub
-                        </h1>
+                {/* Subtitle */}
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-md sm:max-w-xl mb-8 leading-relaxed">
+                    Tasks, notes, reminders, and events - all in one place.
+                    Stay focused, stay productive, and never miss what matters.
+                </p>
 
-                        {/* Description */}
-                        <p className="text-xs sm:text-sm text-muted-foreground mb-6 sm:mb-8 max-w-xs sm:max-w-sm mx-auto leading-relaxed">
-                            Take control of your day, sync your life, and stay focused on what matters.
-                        </p>
+                {/* CTA */}
+                <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs sm:max-w-md justify-center">
+                    <Link to="/login" className="w-full sm:w-auto">
+                        <Button className="w-full sm:w-auto h-11 sm:h-12 px-6 text-sm sm:text-base flex items-center gap-2 group">
+                            Get Started
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                    </Link>
 
-                        {/* CTA */}
-                        <Link to="/login" className="block">
-                            <Button
-                                className="w-full h-11 sm:h-12 text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group"
-                            >
-                                Get Started
-                                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
-                            </Button>
-                        </Link>
-
-                    </CardContent>
-                </Card>
+                    <Button
+                        variant="outline"
+                        className="w-full sm:w-auto h-11 sm:h-12 px-6 text-sm sm:text-base"
+                    >
+                        Learn More
+                    </Button>
+                </div>
 
             </main>
+
+            {/* Footer */}
+            <footer className="text-center text-xs sm:text-sm text-muted-foreground py-4 px-4">
+                © {new Date().getFullYear()} OrbitHub. All rights reserved.
+            </footer>
+
         </div>
     );
 }

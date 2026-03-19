@@ -58,7 +58,7 @@ function Login() {
     }
 
     return (
-        <div className="min-h-dvh flex items-center justify-center bg-background px-4 py-6">
+        <div className="flex items-center justify-center bg-background px-4 py-6">
             <Card className="w-full max-w-md shadow-xl">
 
                 {/* Header */}

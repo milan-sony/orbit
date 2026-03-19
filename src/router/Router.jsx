@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import Index from '../pages/Index/Index'
 import Home from '../pages/Home/Home'
 import PageNotFound from '../pages/PageNotFound/PageNotFound'
@@ -19,8 +19,8 @@ function Router() {
 
     return (
         <Routes>
+            <Route path='/' element={isUserAuthenticated ? <Navigate to="/home" /> : <Index />} />
             <Route element={<Layout />}>
-                <Route path='/' element={isUserAuthenticated ? <Home /> : <Index />} />
                 <Route path='/signup' element={isUserAuthenticated ? <Home /> : <Signup />} />
                 <Route path='/login' element={isUserAuthenticated ? <Home /> : <Login />} />
                 <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
