@@ -29,3 +29,43 @@ export async function userLogout() {
         return error?.response?.data
     }
 }
+
+// Set tasks
+export async function setTasks(params) {
+    try {
+        const response = await axiosInstance.post("/tasks/setTasks", params)
+        return response.data
+    } catch (error) {
+        return error?.response?.data
+    }
+}
+
+// Get all tasks
+export async function getAllTasks() {
+    try {
+        const response = await axiosInstance.get("/tasks/getTasks")
+        return response.data
+    } catch (error) {
+        return error?.response?.data
+    }
+}
+
+// Update tasks
+export async function updateTasks(params) {
+    try {
+        const response = await axiosInstance.put("/tasks/updateTasks", params)
+        return response.data
+    } catch (error) {
+        return error?.response?.data
+    }
+}
+
+// Update tasks
+export async function deleteTasks(params) {
+    try {
+        const response = await axiosInstance.delete(`/tasks/deleteTasks/${params}`)
+        return response.data
+    } catch (error) {
+        return error?.response?.data
+    }
+}
