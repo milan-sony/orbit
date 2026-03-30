@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner"
 
 import {
     Select,
@@ -53,8 +54,8 @@ function Tasks() {
     ];
 
     const validateForm = () => {
-        if (!formData.task) return alert("Task is required");
-        if (!formData.priority) return alert("Priority is required");
+        if (!formData.task) return toast.info("Task is required", { position: "top-center" });
+        if (!formData.priority) return toast.info("Priority is required", { position: "top-center" });
         return true;
     };
 

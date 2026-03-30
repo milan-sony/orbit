@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { deleteTasks, getAllTasks, setTasks, updateTasks } from "../utils/api";
+import { toast } from "sonner"
 
 export const taskStore = create((set, get) => ({
     tasks: [],
@@ -14,11 +15,11 @@ export const taskStore = create((set, get) => ({
             console.log("setTaskResponse: ", setTaskResponse);
 
             if (setTaskResponse?.status === 201) {
-                alert(setTaskResponse?.message);
+                toast.success(setTaskResponse?.message, { position: "top-center" });
                 // Refetch all tasks after create
                 await get().getAllTasks();
             } else {
-                alert(setTaskResponse?.message);
+                toast.error(setTaskResponse?.message, { position: "top-center" });
             }
         } catch (error) {
             console.error("Error creating the task: ", error);
@@ -37,7 +38,7 @@ export const taskStore = create((set, get) => ({
             if (getAllTasksResponse?.status === 200) {
                 set({ tasks: getAllTasksResponse?.data });
             } else {
-                alert(getAllTasksResponse?.message);
+                toast.error(getAllTasksResponse?.message, { position: "top-center" });
             }
         } catch (error) {
             console.error("Error fetching the tasks: ", error);
@@ -59,7 +60,7 @@ export const taskStore = create((set, get) => ({
             const updateTaskResponse = await updateTasks(updateTaskparams);
 
             if (updateTaskResponse?.status === 201) {
-                alert(updateTaskResponse?.message);
+                toast.success(updateTaskResponse?.message, { position: "top-center" });
                 // Refetch all tasks after create
                 await get().getAllTasks();
             }
@@ -76,11 +77,11 @@ export const taskStore = create((set, get) => ({
         try {
             const deleteTaskResponse = await deleteTasks(taskId);
             if (deleteTaskResponse?.status === 200) {
-                alert(deleteTaskResponse?.message);
+                toast.success(deleteTaskResponse?.message, { position: "top-center" });
                 // Refetch all tasks after delete
                 await get().getAllTasks();
             } else {
-                alert(deleteTaskResponse?.message);
+                toast.error(deleteTaskResponse?.message, { position: "top-center" });
             }
         } catch (error) {
             console.error("Error deleting the task: ", error);

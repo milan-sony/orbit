@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Orbit } from "lucide-react";
+import { toast } from "sonner"
 
 function Login() {
 
@@ -23,22 +24,22 @@ function Login() {
         const { email, password } = formData;
 
         if (!email) {
-            alert("Email is required");
+            toast.info("Email is required", { position: "top-center" })
             return false;
         }
 
         if (!/\S+@\S+\.\S+/.test(email)) {
-            alert("Invalid email address");
+            toast.info("Invalid email address", { position: "top-center" });
             return false;
         }
 
         if (!password) {
-            alert("Password is required");
+            toast.info("Password is required", { position: "top-center" });
             return false;
         }
 
         if (password.length < 6) {
-            alert("Password must be at least 6 characters");
+            toast.info("Password must be at least 6 characters", { position: "top-center" });
             return false;
         }
 

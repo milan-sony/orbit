@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { userLogin, userLogout, userSignup } from "../utils/api";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { toast } from "sonner"
 
 export const userAuthStore = create(
     persist(
@@ -36,15 +37,15 @@ export const userAuthStore = create(
                                 accessToken: loginResponse?.token,
                                 isUserAuthenticated: true,
                             });
-                            alert(loginResponse?.message);
+                            toast.success(loginResponse?.message, { position: "top-center" });
                             navigate("/home");
                             return;
                         } else {
-                            alert(loginResponse?.message);
+                            toast.error(loginResponse?.message, { position: "top-center" });
                             return;
                         }
                     } else {
-                        alert(signupResponse?.message);
+                        toast.error(signupResponse?.message, { position: "top-center" });
                         return;
                     }
                 } catch (error) {
@@ -66,11 +67,11 @@ export const userAuthStore = create(
                             accessToken: loginResponse?.token,
                             isUserAuthenticated: true,
                         });
-                        alert(loginResponse?.message);
+                        toast.success(loginResponse?.message, { position: "top-center" });
                         navigate("/home");
                         return;
                     } else {
-                        alert(loginResponse?.message);
+                        toast.error(loginResponse?.message, { position: "top-center" });
                         return;
                     }
                 } catch (error) {
@@ -93,11 +94,11 @@ export const userAuthStore = create(
                             isUserAuthenticated: false,
                         });
                         localStorage.removeItem("user-auth"); // Clears the persisted state by key
-                        alert(logoutResponse?.message);
+                        toast.success(logoutResponse?.message, { position: "top-center" });
                         navigate("/login");
                         return;
                     } else {
-                        alert(logoutResponse?.message);
+                        toast.error(logoutResponse?.message, { position: "top-center" });
                         return;
                     }
                 } catch (error) {
